@@ -13,12 +13,14 @@
 
         var game = new Phaser.Game(800, 600, Phaser.AUTO, 'Keliminate The Game', { preload: preload, create: create });
         function preload () {
-            game.load.image('logo', 'assets/phaser.png');
+            game.load.image('bgimage', 'assets/phaser.png');
             game.load.image('hexagon','assets/hexagon.png');
         }
         function create () {
-             var bg = game.add.sprite(game.world.centerX, game.world.centerY, 'logo');
-            bg.setAnchor = 0.5;    
+            var bg = game.add.sprite(game.world.centerX, game.world.centerY, 'logo');
+            bg.anchor.x = 0.5;
+            bg.anchor.y = 0.5;    
+    
     }
         function update ()
         {
