@@ -17,10 +17,15 @@
             game.load.image('hexagon','assets/hexagon.png');
         }
         function create () {
-            var bg = game.add.sprite(game.world.centerX, game.world.centerY, 'logo');
+            //adding background to the game
+            var bg = game.add.sprite(game.world.centerX, game.world.centerY, 'bgimage');
             bg.anchor.x = 0.5;
-            bg.anchor.y = 0.5;    
-    
+            bg.anchor.y = 0.5;
+            //call to include letters 
+    }
+    function createHexagons()
+    {
+        
     }
         function update ()
         {
