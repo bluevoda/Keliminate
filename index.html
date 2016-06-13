@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>hello phaser!</title>
+        <script src="phaser.min.js"></script>
+    </head>
+    <body>
+
+    <script type="text/javascript">
+
+    window.onload = function() {
+
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create });
+        var hexagon;
+
+        function preload () {
+
+            game.load.image('logo', 'phaser.png');
+            game.load.image('hexagon','hexagon.png');
+        }
+
+        function create () {
+
+            var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'logo');
+          //  var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'logo');
+            logo.anchor.setTo(0.5, 0.5);
+            //var hexagon = game.add.sprite(100, 100, 'hexagon');
+            //hexagon.scale.setTo(0.03,0.03);
+            hexagon = createHexagon(150,150, "k");
+        }
+
+        function createHexagon(posx, posy, character)
+        {
+
+          var hexagon = game.add.sprite(posx, posy, 'hexagon');
+          hexagon.scale.setTo(0.05,0.05);
+
+          var style = { font: "32px Arial", fill: "#ff0044", wordWrap: true, wordWrapWidth: hexagon.width, align: "center", backgroundColor: "#ffff00" };
+          var text = game.add.text(posx, posy, character, style);
+          text.anchor.x = 0,5;
+          text.anchor.y = 0,5;
+          text.x = Math.floor(hexagon.x + hexagon.width / 2);
+          text.y = Math.floor(hexagon.y + hexagon.height / 2);
+          return hexagon;
+        }
+        function update ()
+        {
+      }
+    };
+    </script>
+
+    </body>
+</html>
