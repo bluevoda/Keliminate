@@ -11,32 +11,59 @@
 
     window.onload = function() {
         var HexaList = [] ;
-        var game = new Phaser.Game(800, 600, Phaser.AUTO, 'Keliminate The Game', { preload: preload, create: create });
+        var letters = [];
+        var innery = window.innerHeight-50;
+        console.log("innery = " + innery);
+        var innerx = window.innerWidth-50;
+        console.log("innerx = " + innerx);
+        var game;
+        if(innerx / 3 > innery / 4)
+        {
+           game = new Phaser.Game((innery / 3) * 4, innery, Phaser.AUTO, 'Keliminate The Game', { preload: preload, create: create });
+           alert("width =" + innery + " height =" + (innery / 3) * 4 );
+        }
+        else
+        {
+          game = new Phaser.Game(innerx,(innerx / 4 )* 3, Phaser.AUTO, 'Keliminate The Game', { preload: preload, create: create });
+          alert("width =" + (innerx / 4 )* 3 + " height =" + innerx );
+        }
+        var scaleKey = game.width * game.height;
+        alert(scaleKey);
+
         function preload () {
             game.load.image('bgimage', 'assets/background.png');
             game.load.image('hexagon','assets/hexagon.png');
+            game.load.image('scrumble','assets/blue.png');
+
         }
         function create () {
             //adding background to the game
+            letters = ["a","b","c","d","e","ç","g","h","i","j"];
             var bg = game.add.tileSprite(0, 0,1600,1200, 'bgimage');
             bg.anchor.x = 0.5;
             bg.anchor.y = 0.5;
-            //call to include letters 
+            //call to include letters
             createHexagons();
+
         }
         function createHexagons()
         {
             for(var i = 0; i < 10; i ++)
             {
-                HexaList[i] = game.add.sprite(i*75  + 60, 500, 'hexagon');
-                HexaList[i].anchor.x = 0.5;
-                HexaList[i].anchor.y = 0.5;
-                HexaList[i].scale.x = 0.03;
-                HexaList[i].scale.y = 0.03;
-
-
+                HexaList[i] = game.add.group();
+                var hexsprite = game.add.sprite(i*75  + 60, 500, 'hexagon');
+                hexsprite.anchor.x = 0.5;
+                hexsprite.anchor.y = 0.5;
+                hexsprite.scale.x = 0.03;
+                hexsprite.scale.y = 0.03;
+                var style = { font: "32px Arial", wordWrap: true, wordWrapWidth: hexsprite.width, align: "center"};
+                var text = game.add.text(i*75  + 60, 500, letters[i], style);
+                text.anchor.set(0.5);
+                HexaList[i].add(hexsprite);
+                HexaList[i].add(text);
             }
         }
+
         function update ()
         {
 
