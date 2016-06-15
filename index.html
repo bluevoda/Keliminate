@@ -11,6 +11,7 @@
 
     window.onload = function() {
         var HexaList = [] ;
+        var ActiveHexaList = [];
         var letters = [];
         var game;
         game = new Phaser.Game(800, 600, Phaser.AUTO, 'Keliminate The Game', { preload: preload, create: create });
@@ -29,14 +30,29 @@
           game.scale.pageAlignVertically = true;
         }
         function create () {
-            //adding background to the game
-
             letters = ["a","b","c","d","e","ç","g","h","i","j"];
+            //adding background to the game
             var bg = game.add.tileSprite(0, 0,1600,1200, 'bgimage');
             bg.anchor.x = 0.5;
             bg.anchor.y = 0.5;
-            //call to include letters
+            //call to create & show letters
             createHexagons();
+            //keyboard input listener
+            game.input.keyboard.onPressCallback = function(e){
+              if(e.keycode == Phaser.KeyCode.BACKSPACE)
+              {
+                e.preventDefault();
+                alert("backspace!!!!");
+              }
+              for (var i = 0; i < letters.length; i++) {
+                alert(e);
+                if (letters[i] == e)
+                {
+                  alert("yes " + e);
+                  break;
+                }
+              }
+            };
 
         }
         function createHexagons()
