@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>hello phaser!</title>
+        <title>Keliminate The Game</title>
         <script src="phaser.js"></script>
     </head>
     <body>
@@ -17,7 +17,7 @@
         var oldy = [];
         var middleList = [];
         var game = new Phaser.Game(800, 600, Phaser.AUTO, 'Keliminate The Game', { preload: preload, create: create });
-
+        var timeLeft = 10;
 
         function preload () {
             game.load.image('bgimage', 'assets/background.png');
@@ -43,31 +43,39 @@
             //call to create & show letters
             createHexagons();
             //keyboard input listener
-            document.addEventListener('keydown', function(event) {
+            document.addEventListener('keypress', function(event) {
 
                   if(event.keyCode == 8) {
                       event.preventDefault();
                       alert('BackSpace Pressed');
+                      return false;
+
                   }
                   else if(event.keyCode == 13) {
                       event.preventDefault();
                       alert('Enter Pressed');
+                      return false;
+
                   }
                   else {
-                    return true;
+                    var f = String.fromCharCode(event.charCode);
+                    //alert(f);
+                    for (var i = 0; i < letters.length; i++) {
+                    if (letters[i] == f.toLowerCase())
+                        {
+                          var character = letters[i];
+                          addMiddle(HexaList[i]);
+                          break;
+                        }
+                      }
                   }
-                  return false;
               });
-            game.input.keyboard.onPressCallback = function(e){
-            for (var i = 0; i < letters.length; i++) {
-            if (letters[i] == e)
-                {
-                  addMiddle(HexaList[i]);
-                  break;
-                }
-              }
-            };
 
+            //timer creation
+            var timeinterval = setInterval(function()
+            {
+              console.log("ticks");
+            },1000);
         }
         function createHexagons()
         {
@@ -81,8 +89,8 @@
                 hexsprite.scale.y = 0.03;
                 var text = game.add.bitmapText(i*75  + 60, 500,'arial', letters[i], 32);
                 text.anchor.set(0.5);
-                game.physics.arcade.enable(text);
-                game.physics.arcade.enable(hexsprite);
+                game.physics.enable(text, Phaser.Physics.ARCADE);
+                game.physics.enable(hexsprite, Phaser.Physics.ARCADE);
                 HexaList[i].add(hexsprite);
                 HexaList[i].add(text);
             }
@@ -90,13 +98,20 @@
         function addMiddle(letter)
         {
           middleList.push(letter);
-          var startLocation = 400 - (middleList.count / 2 *60 );
-          alert("call");
+          var startLocation = 400 - (middleList.length / 2 *60 );
           for (var i = 0; i < middleList.length; i++) {
-            alert(middleList[i].getAt[1]);
-            game.physics.arcade.moveToXY(middleList[i].getAt[1], startLocation + i * 60 , 250,30,1000);
-
+            //alert(startLocation);
+            var moveTo0=game.add.tween(middleList[i].children[0]);
+            var moveTo1=game.add.tween(middleList[i].children[1]);
+            moveTo0.to({x:startLocation + i * 60, y:250},500,Phaser.Easing.Linear.None);
+            moveTo1.to({x:startLocation + i * 60, y:250},500,Phaser.Easing.Linear.None);
+            moveTo1.start();
+            moveTo0.start();
           }
+        }
+        function deleteLast()
+        {
+
         }
         function update ()
         {
