@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+	<head>
+    		<script src="phaser.js"></script>
+    		<script src="boot.js"></script>
+			<script src="loader.js"></script>
+    		<style>
+    			body{margin:0}
+    		</style>
+		<script>
+			window.onload = function() {
+				var game = new Phaser.Game(800, 600, Phaser.CANVAS, "Kelime Savaslari");
+                //for making the game Responsive !
+                game.state.add("Boot",boot);
+				game.state.add("Loader",loader);
+                game.state.start("Boot");
+			}();    
+		</script>
+    </head>
+    <body>
+    </body>
+</html>
