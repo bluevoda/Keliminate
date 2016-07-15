@@ -19,10 +19,10 @@ container.prototype = {
   },
   addLetters:function(scene)
   {
-    let arr = ['a', 'b', 'c', 'd', 'ü', 'i', 'ç', 'g', 'j', 'z'];
+    let arr = result.rows[0].base;
     for(let i = 0; i < 10; i ++)
     {
-      this.items.push(this.makeletter(arr[i],i));
+      this.items.push(this.makeletter(arr.substring(i, i+1),i));
       this.items[i].hexagon = scene.add.sprite((this.items[i].order)*75  + 60, 500, 'hexagon');
       this.items[i].hexagon.anchor.x = 0.5;
       this.items[i].hexagon.anchor.y = 0.5;

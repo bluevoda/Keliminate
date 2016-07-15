@@ -1,9 +1,11 @@
 var up;
 var down;
 var scene;
+var timer;
 var firsttime;
 var maxtime = 90;
 var howmany = 0;
+var result;
 var timeText;
 var single = function(game){
     console.log("Single Initiated!");
@@ -12,11 +14,37 @@ var single = function(game){
 single.prototype = {
     preload:function(){},
     create:function(){
-      //adding background
       var bg = this.game.add.tileSprite(0, 0,1600,1200, 'bgimage');
       bg.anchor.set(0.5);
+      timeText = scene.add.bitmapText(400, 50,'arial', 'Yükleniyor...', 64);
+      timeText.anchor.x = 0.5;
+      timeText.anchor.y = 0.5;
+      var t = new Date();
+      firsttime = t.getTime();
+      timer = scene.time.create(false);
+      timer.loop(1000, this.timerEvent, this);
+      //send request
+      $.ajax({
+        type: 'GET',
+        url: 'http://192.168.2.177:3000',
+        dataType: 'jsonp',
+        contentType: "application/json; charset=utf-8",
+        xhrFields: {
+          withCredentials: false
+        },
+        success: function(data) {
+          console.log("succes");
+          result = data;
+          single.prototype.createLetters();
+          timer.start();
+          //this.createLetters(data[0].base);
+        }
+      });
+      //adding background
+
+
       //call for creating letters in container
-      this.createLetters();
+
       //adding event listeners that listens keyboard activity
       document.addEventListener('keypress', function(event) {
             if(event.keyCode == 81) {
@@ -35,19 +63,14 @@ single.prototype = {
               var f = String.fromCharCode(event.charCode);
               addMiddle(f);
             }
-        });
-        timeText = scene.add.bitmapText(400, 50,'arial', '90', 64);
-        timeText.anchor.x = 0.5;
-        timeText.anchor.y = 0.5;
-
-        var t = new Date();
-        firsttime = t.getTime();
-        scene.time.events.add(Phaser.Timer.SECOND, this.timerEvent, this);
-
-
+        });;
     },
     timerEvent:function(){
-
+      var n = new Date();
+      var currentTime = n.getTime();
+      maxtime --;
+      timeText.text = maxtime;
+      console.log("lol");
     },
     update:function(){
     },
@@ -55,16 +78,9 @@ single.prototype = {
     {
       up = new list();
       down = new container();
-      down.addLetters(this.game);
+      down.addLetters(scene);
     },
-
-    render:function()
-    {
-        //this.game.debug.geom(cropRect, 'rgba(200,0,0,0.6)');
-    }
-
-
-}
+};
 function addMiddle(charcode){
   for (var i = 0; i < down.items.length; i++) {
   if (down.items[i].data == charcode.toLowerCase()){
