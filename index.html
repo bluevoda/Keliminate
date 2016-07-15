@@ -8,7 +8,6 @@
     <body>
 
     <script type="text/javascript">
-
     window.onload = function() {
         var HexaList = [] ;
         var ActiveHexaList = [];
@@ -16,7 +15,7 @@
         var oldx = [];
         var oldy = [];
         var middleList = [];
-        var game = new Phaser.Game(800, 600, Phaser.AUTO, 'Keliminate The Game', { preload: preload, create: create });
+        const game = new Phaser.Game(800, 600, Phaser.AUTO, 'Keliminate The Game', { preload: preload, create: create });
         var timeLeft = 10;
 
         function preload () {

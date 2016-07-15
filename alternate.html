@@ -1,20 +1,25 @@
 <!doctype html>
-<html>
+<html charset=UTF-16>
 	<head>
-    		<script src="phaser.js"></script>
-    		<script src="boot.js"></script>
-			<script src="loader.js"></script>
+    		<script src="phaser.js" charset="UTF-8"></script>
+				<script src="list.js" charset="UTF-8"></script>
+    		<script src="boot.js" charset="UTF-8"></script>
+				<script src="menu.js" charset="UTF-8"></script>
+				<script src="single.js" charset="UTF-8"></script>
+			<script src="loader.js" charset="UTF-8"></script>
     		<style>
     			body{margin:0}
     		</style>
 		<script>
 			window.onload = function() {
-				var game = new Phaser.Game(800, 600, Phaser.CANVAS, "Kelime Savaslari");
+				const game = new Phaser.Game(800, 600, Phaser.CANVAS, "Kelime Savaslari");
                 //for making the game Responsive !
                 game.state.add("Boot",boot);
-				game.state.add("Loader",loader);
+								game.state.add("Loader",loader);
+								game.state.add("Menu",menu);
+								game.state.add("Single",single);
                 game.state.start("Boot");
-			}();    
+			}();
 		</script>
     </head>
     <body>
