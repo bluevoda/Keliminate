@@ -13,7 +13,8 @@ loader.prototype = {
       this.game.add.tween(sprite).to({alpha:progress/100},1000,"Linear",true);
     },
     loadcomplete:function(){
-      this.game.state.start("Menu");
+      this.game.time.events.add(Phaser.Timer.SECOND * 4, this.nextStage, this);
+
     },
     create:function(){
         //adding background
@@ -34,9 +35,14 @@ loader.prototype = {
         this.game.load.onFileComplete.add(this.filecomplete,this);
         this.game.load.onLoadComplete.add(this.loadcomplete,this);
         this.game.load.image('hexagon','assets/hexagon.png');
-        this.game.load.image('scrumble','assets/blue.png');
+        this.game.load.image('scramble','assets/scramble.png');
+        this.game.load.image('scramble','assets/verify.png');
         this.game.load.start();
 
+
+    },
+    nextStage:function(){
+      this.game.state.start("Menu");
     },
     update:function(){
 

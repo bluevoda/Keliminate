@@ -2,6 +2,7 @@ var up;
 var down;
 var scene;
 var timer;
+var point = 0;
 var firsttime;
 var maxtime = 90;
 var howmany = 0;
@@ -10,12 +11,14 @@ var timeText;
 var single = function(game){
     console.log("Single Initiated!");
     scene = game;
-  }
+};
 single.prototype = {
     preload:function(){},
     create:function(){
+      //add background
       var bg = this.game.add.tileSprite(0, 0,1600,1200, 'bgimage');
       bg.anchor.set(0.5);
+      //add time
       timeText = scene.add.bitmapText(400, 50,'arial', 'Yükleniyor...', 64);
       timeText.anchor.x = 0.5;
       timeText.anchor.y = 0.5;
@@ -26,7 +29,7 @@ single.prototype = {
       //send request
       $.ajax({
         type: 'GET',
-        url: 'http://192.168.2.177:3000',
+        url: 'http://192.168.43.44:3000',
         dataType: 'jsonp',
         contentType: "application/json; charset=utf-8",
         xhrFields: {
@@ -39,15 +42,10 @@ single.prototype = {
           timer.start();
           //this.createLetters(data[0].base);
         }
-      });
-      //adding background
-
-
-      //call for creating letters in container
-
+      });;
       //adding event listeners that listens keyboard activity
-      document.addEventListener('keypress', function(event) {
-            if(event.keyCode == 81) {
+      document.addEventListener('keyup', function(event) {
+            if(event.keyCode == 8) {
                 event.preventDefault();
                 removeLetter();
                 return false;
@@ -70,7 +68,9 @@ single.prototype = {
       var currentTime = n.getTime();
       maxtime --;
       timeText.text = maxtime;
-      console.log("lol");
+      if(maxtime < 75){
+          this.game.state.start("singleOver");
+      }
     },
     update:function(){
     },
@@ -79,7 +79,7 @@ single.prototype = {
       up = new list();
       down = new container();
       down.addLetters(scene);
-    },
+    }
 };
 function addMiddle(charcode){
   for (var i = 0; i < down.items.length; i++) {
@@ -150,7 +150,23 @@ function removeLetter(){
         count ++;
       }
   }
-
   beforetemp.next = null;
   down.items[temp.order].isAvaliable = true;
 };
+function checkUp(){
+  var upword = "";
+  var temp = up.root;
+  while(temp){
+    upword.concat(temp.data);
+  }
+  console.log("FIRED = " + upword);
+  result.some(function(item){
+    if(item.sub == upword)
+    {
+      console.log("OKAY");
+      //accepted
+      return true;
+    }
+  });
+
+  }

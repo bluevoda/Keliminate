@@ -1,11 +1,14 @@
 <!doctype html>
-<html charset=UTF-16>
+<html>
 	<head>
+				<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+				<meta content="utf-8" http-equiv="encoding">
 				<script src="jquery-3.1.0.js" charset="UTF-8"></script>
     		<script src="phaser.js" charset="UTF-8"></script>
 				<script src="list.js" charset="UTF-8"></script>
     		<script src="boot.js" charset="UTF-8"></script>
 				<script src="menu.js" charset="UTF-8"></script>
+				<script src="singleOver.js" charset="UTF-8"></script>
 				<script src="single.js" charset="UTF-8"></script>
 			<script src="loader.js" charset="UTF-8"></script>
     		<style>
@@ -16,6 +19,7 @@
 				const game = new Phaser.Game(800, 600, Phaser.WEBGL, 'Kelime Savaslari');
                 //for making the game Responsive !
                 game.state.add("Boot",boot);
+								game.state.add("singleOver",singleOver);
 								game.state.add("Loader",loader);
 								game.state.add("Menu",menu);
 								game.state.add("Single",single);

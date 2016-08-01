@@ -19,7 +19,7 @@ container.prototype = {
   },
   addLetters:function(scene)
   {
-    let arr = result.rows[0].base;
+    var arr = result.rows[0].base;
     for(let i = 0; i < 10; i ++)
     {
       this.items.push(this.makeletter(arr.substring(i, i+1),i));
