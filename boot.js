@@ -11,6 +11,13 @@ boot.prototype = {
         this.game.scale.pageAlignHorizontally = true;
         this.game.scale.pageAlignVertically = true;
         //adding background
-        this.game.state.start("Loader");
+        this.game.load.onLoadComplete.add(this.loadcomplete,this);
+        this.game.load.image('bgimage', 'static/assets/background.png');
+        this.game.load.bitmapFont('arial', 'static/assets/font/font.png', 'static/assets/font/font.xml');
+        this.game.load.image('logo', 'static/assets/logo2.png');
+        this.game.load.start();
+    },
+    loadcomplete:function(){
+      this.game.state.start("Loader");
     }
 }

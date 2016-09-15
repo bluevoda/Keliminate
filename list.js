@@ -2,11 +2,7 @@ var list = function(){
   console.log("list initted");
   var root = {};
 };
-var node = {
-  data:null,
-  order:null,
-  next:null
-};
+
 var container = function()
 {
   container.prototype.items = [];
@@ -15,7 +11,15 @@ var container = function()
 container.prototype = {
   makeletter:function(letter, order)
   {
-    return{data:letter, order:order, hexagon:null, text:null, isAvaliable:true};
+    return{data:letter, order:order, upperorder:0, hexagon:null, text:null, isUp:false};
+    /*
+      data: -string- used for comparison
+      order: -int- used for determining unactive place of letter
+      upperorder: -int- used for determining active place of letter
+      hexagon: -sprite- hexagon sprite of letter
+      text: -sprite(bitmapText)- text sprite of letter
+      isUp: -boolean- true if letter is active, false if letter is unactive
+    */
   },
   addLetters:function(scene)
   {
@@ -26,6 +30,9 @@ container.prototype = {
       this.items[i].hexagon = scene.add.sprite((this.items[i].order)*75  + 60, 500, 'hexagon');
       this.items[i].hexagon.anchor.x = 0.5;
       this.items[i].hexagon.anchor.y = 0.5;
+      this.items[i].hexagon.inputEnabled = true;
+      this.items[i].hexagon.events.onInputDown.add(onLetterTouch, this);
+      this.items[i].hexagon.itemOrder = i; //this is creates a sort of two way binding. Makes it accesible to real object trough its sprite
       this.items[i].hexagon.scale.x = 0.03;
       this.items[i].hexagon.scale.y = 0.03;
       this.items[i].text = scene.add.bitmapText((this.items[i].order)*75  + 60, 500,'arial', (this.items[i].data), 32);
@@ -35,18 +42,9 @@ container.prototype = {
 
     }
   },
-  scramble:function()
-  {
-    //scramble letters
-    for (let i = 0; i < 10; i++) {
-        let temp = Math.floor(Math.random() * 10);
-        letters[i].order = temp;
-        letters[temp].order = i;
-    }
-  },
   display:function(){
 
-  }
+  },
 };
 list.prototype = {
   makenode:function(letter,order){
@@ -86,5 +84,19 @@ list.prototype = {
       console.log(temp.data);
       temp = temp.next;
     }
+  }
+};
+
+/*
+This is letter.onInputDown listener's invoked method
+*/
+function onLetterTouch(sprite, pointer){
+  let order = sprite.itemOrder
+  console.log("Touched an Letter at + : "+ order)
+  if(down.items[order].isUp){
+    onTapRemoveLetter(order);
+  }
+  else{
+    onTapAddMiddle(order);
   }
 };
